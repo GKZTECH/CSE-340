@@ -11,10 +11,21 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.3",
-    "express": "^4.18.2",
+    "ejs": "^3.1.10",
+    "express": "^4.22.1",
     "pg": "^8.8.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GKZTECH/CSE-340.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/GKZTECH/CSE-340/issues"
+  },
+  "homepage": "https://github.com/GKZTECH/CSE-340#readme"
 }
