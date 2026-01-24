@@ -1,0 +1,21 @@
+<%- include('../partials/_header') %>
+<body>
+  <div id="wrapper">
+    <header>
+      <%- include('../partials/_navigation') %>
+    </header>
+    <main class="error-main">
+      <section class="error-section">
+        <div class="error-content">
+          <h1><%= title || 'Error' %></h1>
+          <p class="error-message"><%= message || 'An error occurred' %></p>
+          <a href="/" class="btn btn-primary">Return to Home</a>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <%- include('../partials/_footer') %>
+    </footer>
+  </div>
+</body>
+</html>

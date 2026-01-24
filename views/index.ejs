@@ -1,61 +1,112 @@
-<%- include('partials/head') %>
+<%- include('partials/_header') %>
 <body>
-    <div id="wrapper">
-        <%- include('partials/header') %>
-        <%- include('partials/nav') %>
+  <div id="wrapper">
+    <header>
+      <%- include('partials/_navigation') %>
+    </header>
+    <main class="home-main">
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div class="hero-content">
+          <h1>Welcome to CSE Motors</h1>
+          <p>Your premier destination for quality vehicles and exceptional service</p>
+          <a href="/inv" class="btn btn-primary">View Our Inventory</a>
+        </div>
+      </section>
 
-        <main>
-            <h2>Welcome to CSE Motors!</h2>
-
-            <section class="hero">
-                <div class="hero-box">
-                    <h3>DMC Delorean</h3>
-                    <ul>
-                        <li>3 Cup holders</li>
-                        <li>Superman doors</li>
-                        <li>Fuzzy dice!</li>
-                    </ul>
-                    <button>Own Today</button>
+      <!-- Featured Vehicle -->
+      <section class="featured-section">
+        <div class="featured-container">
+          <div class="featured-image">
+            <img src="/images/vehicles/delorean.jpg" alt="DMC DeLorean" class="featured-vehicle-img">
+          </div>
+          <div class="featured-content">
+            <h2>DMC DeLorean</h2>
+            <div class="featured-details">
+              <p><strong>Features:</strong> 3 Cup holders, Superman doors, Fuzzy dice!</p>
+              <div class="featured-specs">
+                <div class="spec-item">
+                  <i class="spec-icon">⚡</i>
+                  <span>Flux Capacitor</span>
                 </div>
-                <img src="/images/delorean.jpg" alt="DMC Delorean">
-            </section>
-
-            <div class="info-grid">
-                <section class="upgrades">
-                    <h3>Delorean Upgrades</h3>
-                    <div class="upgrade-grid">
-                        <div class="card">
-                            <div class="blue-box"><img src="/images/flux-cap.png" alt="Flux"></div>
-                            <a href="#">Flux Capacitor</a>
-                        </div>
-                        <div class="card">
-                            <div class="blue-box"><img src="/images/flame.jpg" alt="Flames"></div>
-                            <a href="#">Flame Decals</a>
-                        </div>
-                        <div class="card">
-                            <div class="blue-box"><img src="/images/bumper_sticker.jpg" alt="Stickers"></div>
-                            <a href="#">Bumper Stickers</a>
-                        </div>
-                        <div class="card">
-                            <div class="blue-box"><img src="/images/hub-cap.jpg" alt="Hub Caps"></div>
-                            <a href="#">Hub Caps</a>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="reviews">
-                    <h3>DMC Delorean Reviews</h3>
-                    <ul>
-                        <li>"So fast it's almost like traveling in time." (4/5)</li>
-                        <li>"Coolest ride on the road." (4/5)</li>
-                        <li>"I'm feeling McFly!" (5/5)</li>
-                        <li>"The most futuristic ride of our day." (4.5/5)</li>
-                        <li>"80's livin and I love it!" (5/5)</li>
-                    </ul>
-                </section>
+                <div class="spec-item">
+                  <i class="spec-icon">🔥</i>
+                  <span>Flame Decals</span>
+                </div>
+                <div class="spec-item">
+                  <i class="spec-icon">🚗</i>
+                  <span>Bumper Stickers</span>
+                </div>
+                <div class="spec-item">
+                  <i class="spec-icon">⚙️</i>
+                  <span>Hub Caps</span>
+                </div>
+              </div>
             </div>
-        </main>
-        <%- include('partials/footer') %>
-    </div>
+            <a href="/inv/detail/1" class="btn btn-secondary">Own Today</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reviews Section -->
+      <section class="reviews-section">
+        <h2>DMC DeLorean Reviews</h2>
+        <div class="reviews-grid">
+          <div class="review-card">
+            <div class="review-text">"So fast it's almost like traveling in time."</div>
+            <div class="review-rating">
+              <span class="stars">★★★★</span>
+              <span class="rating-text">4/5</span>
+            </div>
+            <div class="review-author">- Marty McFly</div>
+          </div>
+          <div class="review-card">
+            <div class="review-text">"Coolest ride on the road."</div>
+            <div class="review-rating">
+              <span class="stars">★★★★</span>
+              <span class="rating-text">4/5</span>
+            </div>
+            <div class="review-author">- Doc Brown</div>
+          </div>
+          <div class="review-card">
+            <div class="review-text">"I'm feeling McFly!"</div>
+            <div class="review-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">5/5</span>
+            </div>
+            <div class="review-author">- Biff Tannen</div>
+          </div>
+          <div class="review-card">
+            <div class="review-text">"The most futuristic ride of our day."</div>
+            <div class="review-rating">
+              <span class="stars">★★★★☆</span>
+              <span class="rating-text">4.5/5</span>
+            </div>
+            <div class="review-author">- Jennifer Parker</div>
+          </div>
+          <div class="review-card">
+            <div class="review-text">"80's livin' and I love it!"</div>
+            <div class="review-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">5/5</span>
+            </div>
+            <div class="review-author">- Lorraine Baines</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Call to Action -->
+      <section class="cta-section">
+        <div class="cta-content">
+          <h2>Find Your Dream Car Today</h2>
+          <p>Browse our extensive inventory of quality vehicles</p>
+          <a href="/inv" class="btn btn-primary">View All Vehicles</a>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <%- include('partials/_footer') %>
+    </footer>
+  </div>
 </body>
 </html>
