@@ -142,12 +142,12 @@ body {
 }
 
 :root {
-  --primary-color: #1a365d; /* Dark blue - passes WCAG AAA contrast */
+  --primary-color: #f39200; /* Dark blue - passes WCAG AAA contrast */
   --secondary-color: #2b6cb0; /* Medium blue - passes WCAG AA contrast */
   --accent-color: #e53e3e; /* Red - passes WCAG AA contrast */
   --light-color: #f7fafc;
   --dark-color: #2d3748;
-  --text-color: #2d3748;
+  --text-color: #ffffff;
   --text-light: #718096;
   --border-color: #e2e8f0;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
