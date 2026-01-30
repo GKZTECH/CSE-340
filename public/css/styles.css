@@ -694,7 +694,7 @@ button:focus {
 
 .classification-form,
 .inventory-form {
-  background: white;
+  background: rgb(6, 103, 248);
   border-radius: 8px;
   padding: 2rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
