@@ -1,0 +1,54 @@
+<%- include('../partials/_header') %>
+<body>
+  <div id="wrapper">
+    <header>
+      <%- include('../partials/_navigation') %>
+    </header>
+    <main class="add-classification-main">
+      <section class="add-classification-section">
+        <h1>Add New Classification</h1>
+        
+        <% if (messages && messages.error) { %>
+          <div class="flash-message error">
+            <p><%= messages.error %></p>
+          </div>
+        <% } %>
+        
+        <form action="/inv/add-classification" method="post" class="classification-form">
+          <div class="form-group">
+            <label for="classification_name">Classification Name</label>
+            <input 
+              type="text" 
+              id="classification_name" 
+              name="classification_name" 
+              required 
+              pattern="^[a-zA-Z0-9]+$"
+              title="No spaces or special characters allowed."
+              value="<%= classification_name || '' %>"
+            >
+            <p class="form-help">Classification name must not contain spaces or special characters.</p>
+          </div>
+          
+          <% if (errors && errors.length > 0) { %>
+            <div class="form-errors">
+              <ul>
+                <% errors.forEach(error => { %>
+                  <li><%= error.msg %></li>
+                <% }) %>
+              </ul>
+            </div>
+          <% } %>
+          
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add Classification</button>
+            <a href="/inv" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+      </section>
+    </main>
+    <footer>
+      <%- include('../partials/_footer') %>
+    </footer>
+  </div>
+</body>
+</html>

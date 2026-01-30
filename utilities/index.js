@@ -9,83 +9,121 @@ utilities.handleErrors = fn => (req, res, next) => {
 
 // Build the navigation list
 utilities.getNav = async function () {
-  let data = await invModel.getClassifications();
-  let list = "<ul>";
-  data.rows.forEach(row => {
-    list += `<li><a href="/inv/type/${row.classification_id}" title="View our ${row.classification_name} lineup">${row.classification_name}</a></li>`;
-  });
-  list += "</ul>";
-  return list;
+  try {
+    let data = await invModel.getClassifications();
+    let list = "<ul>";
+    data.rows.forEach(row => {
+      list += `<li><a href="/inv/type/${row.classification_id}" title="View our ${row.classification_name} lineup">${row.classification_name}</a></li>`;
+    });
+    list += "</ul>";
+    return list;
+  } catch (error) {
+    console.error('Error in getNav:', error);
+    return "<ul><li><a href='#'>Home</a></li></ul>";
+  }
 };
 
 // Build the classification grid
 utilities.buildClassificationGrid = async function (data) {
-  let grid = "";
-  if (data.length > 0) {
-    grid = '<ul id="inv-display">';
-    data.forEach(vehicle => {
-      grid += `<li>
-        <a href="/inv/detail/${vehicle.inv_id}">
-          <img src="${vehicle.inv_thumbnail}" alt="${vehicle.inv_make} ${vehicle.inv_model}">
-          <h2>${vehicle.inv_make} ${vehicle.inv_model}</h2>
-        </a>
-        <div class="price">$${new Intl.NumberFormat('en-US').format(vehicle.inv_price)}</div>
-        <hr>
-      </li>`;
-    });
-    grid += "</ul>";
-  } else {
-    grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>';
+  try {
+    let grid = "";
+    if (data.length > 0) {
+      grid = '<ul id="inv-display">';
+      data.forEach(vehicle => {
+        grid += `<li>
+          <a href="/inv/detail/${vehicle.inv_id}">
+            <img src="${vehicle.inv_thumbnail}" alt="${vehicle.inv_make} ${vehicle.inv_model}">
+            <h2>${vehicle.inv_make} ${vehicle.inv_model}</h2>
+          </a>
+          <div class="price">$${new Intl.NumberFormat('en-US').format(vehicle.inv_price)}</div>
+          <hr>
+        </li>`;
+      });
+      grid += "</ul>";
+    } else {
+      grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>';
+    }
+    return grid;
+  } catch (error) {
+    console.error('Error in buildClassificationGrid:', error);
+    return '<p class="notice">Error loading inventory. Please try again later.</p>';
   }
-  return grid;
 };
 
 // Build vehicle detail HTML
 utilities.buildVehicleDetail = async function (vehicle) {
-  // Format price and mileage with proper formatting
-  const formattedPrice = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0
-  }).format(vehicle.inv_price);
-  
-  const formattedMileage = new Intl.NumberFormat('en-US').format(vehicle.inv_miles);
-  
-  // Build the detail HTML structure
-  const detailHTML = `
-    <div class="vehicle-detail-container">
-      <div class="vehicle-image">
-        <img src="${vehicle.inv_image}" 
-             alt="${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}" 
-             class="detail-image">
-      </div>
-      <div class="vehicle-info">
-        <h2 class="vehicle-title">${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h2>
-        
-        <div class="vehicle-pricing">
-          <span class="price">${formattedPrice}</span>
-          <span class="mileage">${formattedMileage} miles</span>
+  try {
+    // Format price and mileage with proper formatting
+    const formattedPrice = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0
+    }).format(vehicle.inv_price);
+    
+    const formattedMileage = new Intl.NumberFormat('en-US').format(vehicle.inv_miles);
+    
+    // Build the detail HTML structure
+    const detailHTML = `
+      <div class="vehicle-detail-container">
+        <div class="vehicle-image">
+          <img src="${vehicle.inv_image}" 
+               alt="${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}" 
+               class="detail-image">
         </div>
-        
-        <div class="vehicle-specs">
-          <div class="spec-item">
-            <strong>Color:</strong>
-            <span>${vehicle.inv_color}</span>
+        <div class="vehicle-info">
+          <h2 class="vehicle-title">${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h2>
+          
+          <div class="vehicle-pricing">
+            <span class="price">${formattedPrice}</span>
+            <span class="mileage">${formattedMileage} miles</span>
           </div>
-          <div class="spec-item">
-            <strong>Classification:</strong>
-            <span>${vehicle.classification_name}</span>
-          </div>
-          <div class="spec-item">
-            <strong>Description:</strong>
-            <p class="description">${vehicle.inv_description}</p>
+          
+          <div class="vehicle-specs">
+            <div class="spec-item">
+              <strong>Color:</strong>
+              <span>${vehicle.inv_color}</span>
+            </div>
+            <div class="spec-item">
+              <strong>Classification:</strong>
+              <span>${vehicle.classification_name}</span>
+            </div>
+            <div class="spec-item">
+              <strong>Description:</strong>
+              <p class="description">${vehicle.inv_description}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  `;
-  
-  return detailHTML;
+    `;
+    
+    return detailHTML;
+  } catch (error) {
+    console.error('Error in buildVehicleDetail:', error);
+    return '<p class="error">Error loading vehicle details. Please try again later.</p>';
+  }
+};
+
+// Build classification list for select dropdown
+utilities.buildClassificationList = async function (classification_id = null) {
+  try {
+    let data = await invModel.getClassifications();
+    let classificationList = '<select name="classification_id" id="classificationList" required>';
+    classificationList += "<option value=''>Choose a Classification</option>";
+    
+    data.rows.forEach((row) => {
+      classificationList += '<option value="' + row.classification_id + '"';
+      if (classification_id != null && row.classification_id == classification_id) {
+        classificationList += " selected ";
+      }
+      classificationList += ">" + row.classification_name + "</option>";
+    });
+    
+    classificationList += "</select>";
+    return classificationList;
+  } catch (error) {
+    console.error('Error in buildClassificationList:', error);
+    return '<select name="classification_id" id="classificationList" required><option value="">No classifications available</option></select>';
+  }
 };
 
 module.exports = utilities;

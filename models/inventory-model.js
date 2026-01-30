@@ -36,4 +36,68 @@ async function getInventoryById(inventory_id) {
   }
 }
 
-module.exports = { getClassifications, getInventoryByClassificationId, getInventoryById };
+// Add new classification
+async function addClassification(classification_name) {
+  try {
+    const sql = "INSERT INTO classification (classification_name) VALUES ($1) RETURNING *";
+    const result = await pool.query(sql, [classification_name]);
+    return result.rows[0];
+  } catch (error) {
+    console.error("addClassification error: " + error);
+    
+    // Check for duplicate classification name
+    if (error.code === '23505') { // Unique violation
+      throw new Error('Classification name already exists');
+    }
+    
+    throw error;
+  }
+}
+
+// Add new inventory item
+async function addInventory({
+  inv_make,
+  inv_model,
+  inv_year,
+  inv_description,
+  inv_image,
+  inv_thumbnail,
+  inv_price,
+  inv_miles,
+  inv_color,
+  classification_id
+}) {
+  try {
+    const sql = `INSERT INTO inventory (
+      inv_make, inv_model, inv_year, inv_description, 
+      inv_image, inv_thumbnail, inv_price, inv_miles, 
+      inv_color, classification_id
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`;
+    
+    const result = await pool.query(sql, [
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      parseFloat(inv_price),
+      parseInt(inv_miles),
+      inv_color,
+      parseInt(classification_id)
+    ]);
+    
+    return result.rows[0];
+  } catch (error) {
+    console.error("addInventory error: " + error);
+    throw error;
+  }
+}
+
+module.exports = {
+  getClassifications,
+  getInventoryByClassificationId,
+  getInventoryById,
+  addClassification,
+  addInventory
+};
