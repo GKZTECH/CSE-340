@@ -1,4 +1,37 @@
+<!-- views/partials/header.ejs -->
 <header>
-    <h1>CSE Motors</h1>
-    <a href="/account" class="account">My Account</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">CSE Motors</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <% if (loggedin) { %>
+                        <!-- Welcome link for logged-in users -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/account/management">
+                                Welcome <%= clientFirstname || 'User' %>
+                            </a>
+                        </li>
+                        <!-- Logout link for logged-in users -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/account/logout">Logout</a>
+                        </li>
+                    <% } else { %>
+                        <!-- My Account link for logged-out users -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/account/login">My Account</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </nav>
 </header>
