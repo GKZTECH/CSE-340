@@ -1,0 +1,122 @@
+<%- include('../partials/_header') %>
+<body>
+  <div id="wrapper">
+    <header>
+      <%- include('../partials/_navigation') %>
+    </header>
+    <main class="account-update-main">
+      <section class="account-update-section">
+        <h1>Update Account</h1>
+        
+        <!-- Flash Messages -->
+        <% if (messages.success) { %>
+          <div class="flash-message success">
+            <p><%= messages.success %></p>
+          </div>
+        <% } %>
+        
+        <% if (messages.error) { %>
+          <div class="flash-message error">
+            <p><%= messages.error %></p>
+          </div>
+        <% } %>
+        
+        <!-- Display errors -->
+        <% if (errors && errors.length > 0) { %>
+          <div class="form-errors">
+            <ul>
+              <% errors.forEach(error => { %>
+                <li><%= error.msg %></li>
+              <% }) %>
+            </ul>
+          </div>
+        <% } %>
+        
+        <!-- Account Update Form -->
+        <div class="update-form-card">
+          <h2>Account Update</h2>
+          <form action="/account/update-account" method="post" class="account-update-form">
+            <input type="hidden" name="account_id" value="<%= account.account_id %>">
+            
+            <div class="form-group">
+              <label for="account_firstname">First Name *</label>
+              <input 
+                type="text" 
+                id="account_firstname" 
+                name="account_firstname" 
+                class="form-control"
+                required
+                value="<%= account.account_firstname %>"
+              >
+            </div>
+            
+            <div class="form-group">
+              <label for="account_lastname">Last Name *</label>
+              <input 
+                type="text" 
+                id="account_lastname" 
+                name="account_lastname" 
+                class="form-control"
+                required
+                value="<%= account.account_lastname %>"
+              >
+            </div>
+            
+            <div class="form-group">
+              <label for="account_email">Email Address *</label>
+              <input 
+                type="email" 
+                id="account_email" 
+                name="account_email" 
+                class="form-control"
+                required
+                value="<%= account.account_email %>"
+              >
+            </div>
+            
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Update Account</button>
+              <a href="/account" class="btn btn-secondary">Cancel</a>
+            </div>
+          </form>
+        </div>
+        
+        <!-- Change Password Form -->
+        <div class="password-form-card">
+          <h2>Change Password</h2>
+          <form action="/account/update-password" method="post" class="password-update-form">
+            <input type="hidden" name="account_id" value="<%= account.account_id %>">
+            
+            <div class="form-group">
+              <label for="account_password">New Password *</label>
+              <input 
+                type="password" 
+                id="account_password" 
+                name="account_password" 
+                class="form-control"
+                required
+                minlength="10"
+                placeholder="Enter new password"
+              >
+              <p class="form-help">
+                Password must be at least 10 characters long. Entering a new password will replace your current password.
+              </p>
+            </div>
+            
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Change Password</button>
+            </div>
+          </form>
+        </div>
+        
+        <div class="back-link">
+          <a href="/account" class="btn btn-secondary">← Back to Account Management</a>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <%- include('../partials/_footer') %>
+    </footer>
+  </div>
+</body>
+</html>

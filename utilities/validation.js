@@ -2,6 +2,73 @@ const utilities = require('./index');
 
 const validation = {};
 
+// Validation rules for registration
+validation.checkRegistrationData = async (req, res, next) => {
+  const { account_firstname, account_lastname, account_email, account_password } = req.body;
+  let errors = [];
+  
+  // Check required fields
+  if (!account_firstname) errors.push({ msg: 'First name is required.' });
+  if (!account_lastname) errors.push({ msg: 'Last name is required.' });
+  if (!account_email) errors.push({ msg: 'Email is required.' });
+  if (!account_password) errors.push({ msg: 'Password is required.' });
+  
+  // Validate email format
+  if (account_email && !isValidEmail(account_email)) {
+    errors.push({ msg: 'Please enter a valid email address.' });
+  }
+  
+  // Validate password strength
+  if (account_password && account_password.length < 12) {
+    errors.push({ msg: 'Password must be at least 12 characters long.' });
+  }
+  
+  // If there are errors, render the form again with error messages
+  if (errors.length > 0) {
+    let nav = await utilities.getNav();
+    return res.render('account/register', {
+      title: 'Register',
+      nav,
+      errors,
+      account_firstname: account_firstname || '',
+      account_lastname: account_lastname || '',
+      account_email: account_email || '',
+      messages: req.session.messages || {}
+    });
+  }
+  
+  next();
+};
+
+// Validation rules for login
+validation.checkLoginData = async (req, res, next) => {
+  const { account_email, account_password } = req.body;
+  let errors = [];
+  
+  // Check required fields
+  if (!account_email) errors.push({ msg: 'Email is required.' });
+  if (!account_password) errors.push({ msg: 'Password is required.' });
+  
+  // Validate email format
+  if (account_email && !isValidEmail(account_email)) {
+    errors.push({ msg: 'Please enter a valid email address.' });
+  }
+  
+  // If there are errors, render the form again with error messages
+  if (errors.length > 0) {
+    let nav = await utilities.getNav();
+    return res.render('account/login', {
+      title: 'Login',
+      nav,
+      errors,
+      account_email: account_email || '',
+      messages: req.session.messages || {}
+    });
+  }
+  
+  next();
+};
+
 // Validation rules for classification
 validation.checkClassificationData = async (req, res, next) => {
   const { classification_name } = req.body;
@@ -98,8 +165,8 @@ validation.checkInventoryData = async (req, res, next) => {
       inv_model: inv_model || '',
       inv_year: inv_year || '',
       inv_description: inv_description || '',
-      inv_image: inv_image || '/images/vehicles/no-image.png',
-      inv_thumbnail: inv_thumbnail || '/images/vehicles/no-image-tn.png',
+      inv_image: inv_image || '/images/vehicles/no-image.jpg',
+      inv_thumbnail: inv_thumbnail || '/images/vehicles/no-image-tn.jpg',
       inv_price: inv_price || '',
       inv_miles: inv_miles || '',
       inv_color: inv_color || '',
@@ -109,5 +176,81 @@ validation.checkInventoryData = async (req, res, next) => {
   
   next();
 };
+
+// Validation rules for account update (Task 5)
+validation.checkUpdateAccountData = async (req, res, next) => {
+  const { account_firstname, account_lastname, account_email } = req.body;
+  let errors = [];
+  
+  // Check required fields
+  if (!account_firstname) errors.push({ msg: 'First name is required.' });
+  if (!account_lastname) errors.push({ msg: 'Last name is required.' });
+  if (!account_email) errors.push({ msg: 'Email is required.' });
+  
+  // Validate email format
+  if (account_email && !isValidEmail(account_email)) {
+    errors.push({ msg: 'Please enter a valid email address.' });
+  }
+  
+  // If there are errors, render the form again with error messages
+  if (errors.length > 0) {
+    let nav = await utilities.getNav();
+    const account = await accountModel.getAccountById(req.body.account_id);
+    
+    return res.render('account/update', {
+      title: 'Update Account',
+      nav,
+      account: {
+        account_id: req.body.account_id,
+        account_firstname: account_firstname || '',
+        account_lastname: account_lastname || '',
+        account_email: account_email || '',
+        account_type: res.locals.user.account_type
+      },
+      errors,
+      messages: req.session.messages || {}
+    });
+  }
+  
+  next();
+};
+
+// Validation rules for password update (Task 5)
+validation.checkPasswordData = async (req, res, next) => {
+  const { account_password } = req.body;
+  let errors = [];
+  
+  // Check required field
+  if (!account_password) {
+    errors.push({ msg: 'New password is required.' });
+  }
+  
+  // Validate password strength
+  if (account_password && account_password.length < 12) {
+    errors.push({ msg: 'Password must be at least 12 characters long.' });
+  }
+  
+  // If there are errors, render the form again with error messages
+  if (errors.length > 0) {
+    let nav = await utilities.getNav();
+    const account = await accountModel.getAccountById(req.body.account_id);
+    
+    return res.render('account/update', {
+      title: 'Update Account',
+      nav,
+      account,
+      errors,
+      messages: req.session.messages || {}
+    });
+  }
+  
+  next();
+};
+
+// Helper function to validate email format
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
 
 module.exports = validation;

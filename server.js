@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
 
 // Load environment variables
 dotenv.config();
@@ -13,17 +15,44 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'cse340-secret-key',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 3600000 } // 1 hour
+  cookie: { maxAge: 3600000 }
 }));
+
+// Cookie parser middleware
+app.use(cookieParser());
 
 // Middleware for form data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Flash messages middleware
+// Set up JWT configuration
+const jwtSecret = process.env.JWT_SECRET || 'cse340-jwt-secret-change-in-production';
+
+// Authentication middleware
 app.use((req, res, next) => {
+  // Check for token in cookies
+  const token = req.cookies.token;
+  
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, jwtSecret);
+      res.locals.user = decoded;
+      res.locals.loggedIn = true;
+    } catch (error) {
+      // Token is invalid
+      res.clearCookie('token');
+      res.locals.user = null;
+      res.locals.loggedIn = false;
+    }
+  } else {
+    res.locals.user = null;
+    res.locals.loggedIn = false;
+  }
+  
+  // Flash messages middleware
   res.locals.messages = req.session.messages || {};
   req.session.messages = {};
+  
   next();
 });
 
@@ -33,9 +62,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 const baseController = require('./controllers/baseController');
 const inventoryRoute = require('./routes/inventoryRoute');
+const accountRoute = require('./routes/accountRoute');
 
 // Home route
 app.get('/', baseController.buildHome);
+
+// Account routes
+app.use('/account', accountRoute);
 
 // Inventory routes
 app.use('/inv', inventoryRoute);
@@ -72,3 +105,6 @@ const HOST = '0.0.0.0';
 app.listen(PORT, HOST, () => {
   console.log(`Server running at http://${HOST}:${PORT}`);
 });
+
+// Export JWT secret for use in other files
+module.exports.jwtSecret = jwtSecret;

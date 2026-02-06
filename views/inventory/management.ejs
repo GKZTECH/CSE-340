@@ -4,10 +4,9 @@
     <header>
       <%- include('../partials/_navigation') %>
     </header>
-    <main class="management-main">
-      <section class="management-section">
-        <h1>Inventory Management</h1>
-        
+    <main class="account-management-main">
+      <section class="account-management-section">
+        <!-- Flash Messages -->
         <% if (messages.success) { %>
           <div class="flash-message success">
             <p><%= messages.success %></p>
@@ -20,18 +19,52 @@
           </div>
         <% } %>
         
-        <div class="management-links">
-          <div class="management-link">
-            <h2>Add New Classification</h2>
-            <p>Create a new vehicle classification.</p>
-            <a href="/inv/add-classification" class="btn btn-primary">Add Classification</a>
+        <h1>Account Management</h1>
+        
+        <% if (account) { %>
+          <!-- Greeting based on account type -->
+          <h2>Welcome <%= account.account_firstname %></h2>
+          
+          <!-- Account Information -->
+          <div class="account-info-card">
+            <h3>Account Information</h3>
+            <div class="account-details">
+              <div class="detail-row">
+                <strong>Name:</strong>
+                <span><%= account.account_firstname %> <%= account.account_lastname %></span>
+              </div>
+              <div class="detail-row">
+                <strong>Email:</strong>
+                <span><%= account.account_email %></span>
+              </div>
+              <div class="detail-row">
+                <strong>Account Type:</strong>
+                <span><%= account.account_type %></span>
+              </div>
+            </div>
+            
+            <!-- Update Account Link (for all users) -->
+            <div class="account-actions">
+              <a href="/account/update" class="btn btn-primary">Update Account Information</a>
+            </div>
           </div>
-          <div class="management-link">
-            <h2>Add New Vehicle</h2>
-            <p>Add a new vehicle to the inventory.</p>
-            <a href="/inv/add-inventory" class="btn btn-primary">Add Vehicle</a>
+          
+          <!-- Inventory Management Section (only for Employee/Admin) -->
+          <% if (account.account_type === 'Employee' || account.account_type === 'Admin') { %>
+            <div class="inventory-management-card">
+              <h3>Inventory Management</h3>
+              <p>Access the inventory management system to add new classifications and vehicles.</p>
+              <a href="/inv" class="btn btn-secondary">Manage Inventory</a>
+            </div>
+          <% } %>
+          
+        <% } else { %>
+          <div class="not-logged-in">
+            <p>Please login to access your account.</p>
+            <a href="/account/login" class="btn btn-primary">Login</a>
+            <a href="/account/register" class="btn btn-secondary">Register</a>
           </div>
-        </div>
+        <% } %>
       </section>
     </main>
     <footer>

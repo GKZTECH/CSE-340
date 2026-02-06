@@ -1,0 +1,106 @@
+<%- include('../partials/_header') %>
+<body>
+  <div id="wrapper">
+    <header>
+      <%- include('../partials/_navigation') %>
+    </header>
+    <main class="register-main">
+      <section class="register-section">
+        <h1>Register</h1>
+        
+        <!-- Flash Messages -->
+        <% if (messages.success) { %>
+          <div class="flash-message success">
+            <p><%= messages.success %></p>
+          </div>
+        <% } %>
+        
+        <% if (messages.error) { %>
+          <div class="flash-message error">
+            <p><%= messages.error %></p>
+          </div>
+        <% } %>
+        
+        <form action="/account/register" method="post" class="register-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="account_firstname">First Name *</label>
+              <input 
+                type="text" 
+                id="account_firstname" 
+                name="account_firstname" 
+                class="form-control"
+                required
+                value="<%= account_firstname %>"
+                placeholder="Enter your first name"
+              >
+            </div>
+            
+            <div class="form-group">
+              <label for="account_lastname">Last Name *</label>
+              <input 
+                type="text" 
+                id="account_lastname" 
+                name="account_lastname" 
+                class="form-control"
+                required
+                value="<%= account_lastname %>"
+                placeholder="Enter your last name"
+              >
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="account_email">Email Address *</label>
+            <input 
+              type="email" 
+              id="account_email" 
+              name="account_email" 
+              class="form-control"
+              required
+              value="<%= account_email %>"
+              placeholder="Enter your email"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="account_password">Password *</label>
+            <input 
+              type="password" 
+              id="account_password" 
+              name="account_password" 
+              class="form-control"
+              required
+              minlength="12"
+              placeholder="Enter a password (min 12 characters)"
+            >
+            <p class="form-help">
+              Password must be at least 12 characters long.
+            </p>
+          </div>
+          
+          <!-- Display errors -->
+          <% if (errors && errors.length > 0) { %>
+            <div class="form-errors">
+              <ul>
+                <% errors.forEach(error => { %>
+                  <li><%= error.msg %></li>
+                <% }) %>
+              </ul>
+            </div>
+          <% } %>
+          
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Register</button>
+            <a href="/account/login" class="btn btn-secondary">Login</a>
+            <a href="/" class="btn btn-link">Cancel</a>
+          </div>
+        </form>
+      </section>
+    </main>
+    <footer>
+      <%- include('../partials/_footer') %>
+    </footer>
+  </div>
+</body>
+</html>
