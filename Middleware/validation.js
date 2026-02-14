@@ -1,5 +1,6 @@
 const { body } = require('express-validator');
 
+// Validation for account update form
 exports.validateAccountUpdate = [
   body('action').notEmpty().withMessage('Action type missing.'),
   body('account_id').isInt().withMessage('Invalid account ID.'),
@@ -8,6 +9,7 @@ exports.validateAccountUpdate = [
   body('email').isEmail().normalizeEmail().withMessage('Valid email is required.')
 ];
 
+// Validation for password change form
 exports.validatePasswordChange = [
   body('action').notEmpty().withMessage('Action type missing.'),
   body('account_id').isInt().withMessage('Invalid account ID.'),
@@ -18,6 +20,7 @@ exports.validatePasswordChange = [
     .withMessage('Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.')
 ];
 
+// Validation for registration form
 exports.validateRegistration = [
   body('firstname').trim().notEmpty().withMessage('First name is required.'),
   body('lastname').trim().notEmpty().withMessage('Last name is required.'),

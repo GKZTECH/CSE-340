@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const accountController = require('../controllers/accountController');
 const { validateAccountUpdate, validatePasswordChange } = require('./middleware/validation');
-
 // GET registration form
 router.get('/register', accountController.showRegistration);
 

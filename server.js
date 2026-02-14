@@ -25,8 +25,9 @@ app.use(flash());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const checkAuth = require('./Middleware/checkAuth');     // <-- ADD THIS (create this file)
-app.use(checkAuth);                                      // <-- ADD THIS
+const checkAuth = require('./Middleware/checkAuth');
+
+app.use(checkAuth);                                      
 
 
 // Flash messages middleware
