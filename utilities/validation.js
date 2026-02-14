@@ -110,4 +110,4 @@ validation.checkInventoryData = async (req, res, next) => {
   next();
 };
 
-module.exports = validation;
+module.exports = { validateAccountUpdate };
