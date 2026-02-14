@@ -4,7 +4,7 @@ const accountController = require('../controllers/accountController');
 const { validateAccountUpdate, validatePasswordChange } = require('./middleware/validation');
 
 // GET update form – note the :id parameter
-router.get('/update/:id', accountController.showUpdateForm);
+router.get('/login', accountController.showLogin);
 
 // POST update – handles both forms (distinguished by 'action' field)
 router.post('/update', validateAccountUpdate, validatePasswordChange, accountController.processUpdate);

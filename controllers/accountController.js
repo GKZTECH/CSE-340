@@ -2,6 +2,13 @@ const accountModel = require('../models/accountModel');
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 
+exports.showLogin = (req, res) => {
+  res.render('account/login', { 
+    errors: req.flash('errors'), 
+    message: req.flash('message') 
+  });
+};
+
 // Display account update form
 exports.showUpdateForm = async (req, res) => {
   try {
