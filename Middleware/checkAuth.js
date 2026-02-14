@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      res.locals.user = decoded; // contains account_id, firstname, account_type, etc.
+      res.locals.user = decoded; // contains account_id, firstname, lastname, account_type, etc.
     } catch (err) {
       res.locals.user = null;
     }
