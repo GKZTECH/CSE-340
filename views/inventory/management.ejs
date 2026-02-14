@@ -1,0 +1,44 @@
+<%- include('../partials/_header') %>
+<body>
+  <div id="wrapper">
+    <header>
+      <%- include('../partials/_navigation') %>
+    </header>
+    <main class="management-main">
+      <section class="management-section">
+        <h1>Inventory Management</h1>
+        
+        <!-- Flash Messages -->
+        <% if (messages.success) { %>
+          <div class="flash-message success">
+            <p><%= messages.success %></p>
+          </div>
+        <% } %>
+        
+        <% if (messages.error) { %>
+          <div class="flash-message error">
+            <p><%= messages.error %></p>
+          </div>
+        <% } %>
+        
+        <div class="management-actions">
+          <div class="management-card">
+            <h2>Add New Classification</h2>
+            <p>Create a new vehicle classification (e.g., SUV, Truck, Sedan).</p>
+            <a href="/inv/add-classification" class="btn btn-primary">Add Classification</a>
+          </div>
+          
+          <div class="management-card">
+            <h2>Add New Vehicle</h2>
+            <p>Add a new vehicle to the inventory database.</p>
+            <a href="/inv/add-inventory" class="btn btn-primary">Add Vehicle</a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <%- include('../partials/_footer') %>
+    </footer>
+  </div>
+</body>
+</html>

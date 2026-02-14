@@ -13,17 +13,22 @@
     "dotenv": "^16.0.3",
     "ejs": "^3.1.10",
     "express": "^4.22.1",
-    "pg": "^8.8.0"
+    "express-flash": "^0.0.2",
+    "express-session": "^1.19.0",
+    "express-validator": "^7.3.1",
+    "pg": "^8.11.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GKZTECH/CSE-340.git"
   },
   "keywords": [],
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/GKZTECH/CSE-340/issues"
   },

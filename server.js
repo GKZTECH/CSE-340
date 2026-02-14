@@ -1,6 +1,31 @@
 const express = require('express');
 const path = require('path');
+const dotenv = require('dotenv');
+const session = require('express-session');
+
+// Load environment variables
+dotenv.config();
+
 const app = express();
+
+// Session configuration
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'cse340-secret-key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 3600000 } // 1 hour
+}));
+
+// Middleware for form data parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Flash messages middleware
+app.use((req, res, next) => {
+  res.locals.messages = req.session.messages || {};
+  req.session.messages = {};
+  next();
+});
 
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
@@ -40,5 +65,10 @@ app.use((req, res) => {
   });
 });
 
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Server: http://localhost:${PORT}`));
+// Use Render's port or default to 3000
+const PORT = process.env.PORT || 3000;
+const HOST = '0.0.0.0';
+
+app.listen(PORT, HOST, () => {
+  console.log(`Server running at http://${HOST}:${PORT}`);
+});
