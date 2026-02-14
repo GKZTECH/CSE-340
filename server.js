@@ -15,15 +15,6 @@ app.get('/', baseController.buildHome);
 // Inventory routes
 app.use('/inv', inventoryRoute);
 
-// Account route placeholder
-app.get('/account', (req, res) => {
-  let nav = [];
-  res.render('account', {
-    title: 'My Account | CSE Motors',
-    nav
-  });
-});
-
 // Error handling middleware
 app.use((err, req, res, next) => {
   let nav = [];
@@ -49,5 +40,5 @@ app.use((req, res) => {
   });
 });
 
-const PORT = 3001;
+const PORT = 3000;
 app.listen(PORT, () => console.log(`Server: http://localhost:${PORT}`));

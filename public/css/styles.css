@@ -72,7 +72,6 @@ body {
     padding: 20px;
     box-sizing: border-box;
 }
-/* Add these styles to the existing CSS file */
 
 /* Mobile menu active state */
 @media screen and (max-width: 767px) {
@@ -643,4 +642,170 @@ button:focus {
     color: black;
     text-decoration: underline;
   }
+}
+
+/* Add these styles to your existing CSS file */
+
+/* Vehicle Detail Styles */
+.vehicle-detail-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.vehicle-image {
+  flex: 1;
+  min-width: 300px;
+}
+
+.detail-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.vehicle-info {
+  flex: 1;
+  min-width: 300px;
+}
+
+.vehicle-title {
+  font-size: 2.2rem;
+  color: #333;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #e74c3c;
+  padding-bottom: 0.5rem;
+}
+
+.vehicle-pricing {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+.price {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+.mileage {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.vehicle-specs {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.spec-item {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.spec-item:last-child {
+  border-bottom: none;
+}
+
+.spec-item strong {
+  display: block;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.spec-item span,
+.spec-item p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.description {
+  font-style: italic;
+  line-height: 1.6;
+  color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .vehicle-detail-container {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem;
+  }
+  
+  .vehicle-title {
+    font-size: 1.8rem;
+  }
+  
+  .price {
+    font-size: 1.5rem;
+  }
+  
+  .vehicle-pricing {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+/* Inventory Grid Styles (existing, for reference) */
+#inv-display {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 0;
+  list-style: none;
+}
+
+#inv-display li {
+  flex: 0 1 300px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#inv-display li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+#inv-display img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+#inv-display h2 {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+#inv-display .price {
+  font-weight: bold;
+  color: #e74c3c;
+  font-size: 1.1rem;
+}
+
+#inv-display hr {
+  margin: 1rem 0;
+  border: none;
+  border-top: 1px solid #eee;
 }

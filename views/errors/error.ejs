@@ -4,12 +4,12 @@
     <header>
       <%- include('../partials/_navigation') %>
     </header>
-    <main class="error-main">
+    <main>
       <section class="error-section">
+        <h1><%= title %></h1>
         <div class="error-content">
-          <h1><%= title || 'Error' %></h1>
-          <p class="error-message"><%= message || 'An error occurred' %></p>
-          <a href="/" class="btn btn-primary">Return to Home</a>
+          <p><%= message %></p>
+          <a href="/" class="btn">Return to Home</a>
         </div>
       </section>
     </main>
