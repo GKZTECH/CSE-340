@@ -9,6 +9,14 @@ async function getAccountById(id) {
   return rows[0];
 }
 
+async function createAccount(firstname, lastname, email, hashedPassword, accountType = 'Client') {
+  const [result] = await pool.query(
+    'INSERT INTO account (firstname, lastname, email, password, account_type) VALUES (?, ?, ?, ?, ?)',
+    [firstname, lastname, email, hashedPassword, accountType]
+  );
+  return result.insertId; // return the new account_id
+}
+
 // Update firstname, lastname, email
 async function updateAccountInfo(id, firstname, lastname, email) {
   await pool.query(
@@ -32,5 +40,6 @@ module.exports = {
   // ... existing exports
   getAccountById,
   updateAccountInfo,
-  updatePassword
+  updatePassword,
+  createAccount
 };

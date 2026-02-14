@@ -2,11 +2,60 @@ const accountModel = require('../models/accountModel');
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 
-exports.showLogin = (req, res) => {
-  res.render('account/login', { 
-    errors: req.flash('errors'), 
-    message: req.flash('message') 
+// Show registration form
+exports.showRegistration = (req, res) => {
+  res.render('account/register', {
+    errors: req.flash('errors'),
+    message: req.flash('message'),
+    formData: {} // will be used for sticky inputs after validation error
   });
+};
+
+// Process registration
+exports.register = async (req, res) => {
+  const { firstname, lastname, email, password } = req.body;
+
+  // Check validation results
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    req.flash('errors', errors.array().map(e => e.msg));
+    // Pass submitted data back to the form for sticky inputs
+    return res.render('account/register', {
+      errors: errors.array().map(e => e.msg),
+      message: null,
+      formData: { firstname, lastname, email }
+    });
+  }
+
+  try {
+    // Check if email already exists
+    const existing = await accountModel.getAccountByEmail(email);
+    if (existing) {
+      req.flash('errors', ['Email is already registered.']);
+      return res.render('account/register', {
+        errors: ['Email is already registered.'],
+        message: null,
+        formData: { firstname, lastname, email }
+      });
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create account (default account_type = 'Client')
+    await accountModel.createAccount(firstname, lastname, email, hashedPassword);
+
+    req.flash('message', 'Registration successful! Please log in.');
+    res.redirect('/account/login');
+  } catch (err) {
+    console.error(err);
+    req.flash('errors', ['Database error. Please try again.']);
+    res.render('account/register', {
+      errors: ['Database error. Please try again.'],
+      message: null,
+      formData: { firstname, lastname, email }
+    });
+  }
 };
 
 // Display account update form
