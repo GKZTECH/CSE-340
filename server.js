@@ -2,11 +2,14 @@ const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');          
+const flash = require('connect-flash');                 
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
+app.use(cookieParser());
 
 // Session configuration
 app.use(session({
@@ -16,9 +19,15 @@ app.use(session({
   cookie: { maxAge: 3600000 } // 1 hour
 }));
 
+app.use(flash());
+
 // Middleware for form data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+const checkAuth = require('./Middleware/checkAuth');     // <-- ADD THIS (create this file)
+app.use(checkAuth);                                      // <-- ADD THIS
+
 
 // Flash messages middleware
 app.use((req, res, next) => {
@@ -33,12 +42,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 const baseController = require('./controllers/baseController');
 const inventoryRoute = require('./routes/inventoryRoute');
+const accountRoutes = require('./routes/account');
 
 // Home route
 app.get('/', baseController.buildHome);
 
 // Inventory routes
 app.use('/inv', inventoryRoute);
+
+app.use('/account', accountRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
