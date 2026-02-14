@@ -25,7 +25,7 @@ app.use(flash());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const checkAuth = require('./Middleware/checkAuth');
+const validate = require('../middleware/validation')
 
 app.use(checkAuth);                                      
 
