@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const inventoryController = require('../controllers/inventoryController');
-const authorizeInventory = require('./Middleware/authorizeInventory');
+const validate = require("../utilities/validation")
 
 // Public routes – no middleware
 router.get('/classification/:id', inventoryController.getClassification);
