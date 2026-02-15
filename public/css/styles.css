@@ -1284,3 +1284,40 @@ textarea.form-control {
       color: #007bff;
       text-decoration: none;
     }
+
+    #reviewSectionWrapper {
+  margin-top: 40px;
+  padding: 20px;
+  background: #f4f4f4;
+  border-radius: 10px;
+}
+
+.reviewCardBox {
+  background: white;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.reviewCardBox:hover {
+  transform: translateY(-5px);
+}
+
+.reviewFormBox textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.reviewFormBox select,
+.reviewFormBox button {
+  padding: 8px;
+}
+
+.deleteReviewBtn {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+}

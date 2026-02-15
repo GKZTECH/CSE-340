@@ -5,9 +5,56 @@
       <%- include('../partials/_navigation') %>
     </header>
     <main>
+
       <section class="vehicle-detail-section">
         <h1><%= title %></h1>
         <%- detailHTML %>
+        <section id="reviewSectionWrapper">
+  <h3>Customer Reviews</h3>
+
+  <% if (reviews.length === 0) { %>
+    <p>No reviews yet.</p>
+  <% } %>
+
+  <% reviews.forEach(review => { %>
+    <div class="reviewCardBox">
+      <strong><%= review.account_firstname %></strong>
+      <span>Rating: <%= review.review_rating %>/5</span>
+      <p><%= review.review_text %></p>
+
+      <% if (locals.account && locals.account.account_type === "Admin") { %>
+        <form method="POST" action="/review/delete">
+          <input type="hidden" name="review_id" value="<%= review.review_id %>">
+          <input type="hidden" name="inv_id" value="<%= vehicle.inv_id %>">
+          <button class="deleteReviewBtn">Delete</button>
+        </form>
+      <% } %>
+    </div>
+  <% }) %>
+
+  <% if (locals.account) { %>
+    <form method="POST" action="/review/add" class="reviewFormBox">
+      <input type="hidden" name="inv_id" value="<%= vehicle.inv_id %>">
+
+      <textarea name="review_text" required minlength="5"
+        placeholder="Write your review"></textarea>
+
+      <select name="review_rating" required>
+        <option value="">Rating</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+
+      <button type="submit">Submit Review</button>
+    </form>
+  <% } else { %>
+    <p>Please log in to leave a review.</p>
+  <% } %>
+</section>
+
       </section>
     </main>
     <footer>

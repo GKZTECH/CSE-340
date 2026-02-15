@@ -1,6 +1,20 @@
 const invModel = require("../models/inventory-model");
 const utilities = require("../utilities");
 const validation = require("../utilities/validation");
+const reviewModel = require("../models/reviewModel")
+
+async function buildDetail(req, res) {
+  const inv_id = req.params.id
+  const vehicle = await model.getInventoryById(inv_id)
+  const reviews = await reviewModel.getReviewsByVehicle(inv_id)
+
+  res.render("inventory/detail", {
+    title: vehicle.inv_make + " " + vehicle.inv_model,
+    vehicle,
+    reviews
+  })
+}
+
 
 const invCont = {};
 

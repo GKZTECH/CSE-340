@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
 const session = require('express-session');
+const reviewRoute = require("./routes/reviewRoute")
+app.use("/review", reviewRoute)
 
 // Load environment variables
 dotenv.config();
