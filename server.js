@@ -24,11 +24,7 @@ app.use(flash());
 // Middleware for form data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-
-app.use(checkAuth);                                      
-
-
+                                    
 // Flash messages middleware
 app.use((req, res, next) => {
   res.locals.messages = req.session.messages || {};
