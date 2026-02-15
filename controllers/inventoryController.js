@@ -4,17 +4,36 @@ const validation = require("../utilities/validation");
 const reviewModel = require("../models/reviewModel")
 
 async function buildDetail(req, res) {
-  const inv_id = req.params.id
-  const vehicle = await model.getInventoryById(inv_id)
-  const reviews = await reviewModel.getReviewsByVehicle(inv_id)
+  try {
+    const inv_id = req.params.id
 
-  res.render("inventory/detail", {
-    title: vehicle.inv_make + " " + vehicle.inv_model,
-    vehicle,
-    reviews
-  })
+    const vehicle = await model.getInventoryById(inv_id)
+
+    if (!vehicle) {
+      return res.status(404).render("errors/error", {
+        title: "Vehicle Not Found",
+        message: "Vehicle does not exist.",
+        nav: []
+      })
+    }
+
+    const reviews = await reviewModel.getReviewsByVehicle(inv_id)
+
+    res.render("inventory/detail", {
+      title: vehicle.inv_make + " " + vehicle.inv_model,
+      vehicle,
+      reviews: reviews || []   // Always send reviews
+    })
+
+  } catch (err) {
+    console.error(err)
+    res.status(500).render("errors/error", {
+      title: "Server Error",
+      message: "Unable to load vehicle details.",
+      nav: []
+    })
+  }
 }
-
 
 const invCont = {};
 
